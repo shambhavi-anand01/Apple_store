@@ -9,6 +9,10 @@ const User = require("./models/User");
 
 const app = express();
 const SECRET_KEY = process.env.JWT_SECRET;
+const allowedOrigins = [
+  "http://localhost:5173",  // For local development
+  "https://apple-store-34wka7uqu-shambhavi-anands-projects.vercel.app"  // Vercel deployed frontend
+];
 
 if (!SECRET_KEY) {
   console.error("❌ ERROR: JWT_SECRET is not set in .env file!");
@@ -21,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
