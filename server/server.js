@@ -9,11 +9,6 @@ const User = require("./models/User");
 
 const app = express();
 const SECRET_KEY = process.env.JWT_SECRET;
-const allowedOrigins = [
-  "https://apple-store-iota.vercel.app",
-  "https://apple-store-shambhavi-anands-projects.vercel.app",
-  "https://localhost:5173"
-];
 
 if (!SECRET_KEY) {
   console.error("❌ ERROR: JWT_SECRET is not set in .env file!");
@@ -27,7 +22,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || origin.includes("vercel.app")) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
