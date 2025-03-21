@@ -10,7 +10,9 @@ const User = require("./models/User");
 const app = express();
 const SECRET_KEY = process.env.JWT_SECRET;
 const allowedOrigins = [
-  "https://apple-store-34wka7uqu-shambhavi-anands-projects.vercel.app"  // Vercel deployed frontend
+  "https://apple-store-iota.vercel.app",
+  "https://apple-store-shambhavi-anands-projects.vercel.app",
+  "https://localhost:5173"
 ];
 
 if (!SECRET_KEY) {
@@ -24,7 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
