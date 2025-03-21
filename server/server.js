@@ -10,7 +10,6 @@ const User = require("./models/User");
 const app = express();
 const SECRET_KEY = process.env.JWT_SECRET;
 const allowedOrigins = [
-  "http://localhost:5173",  // For local development
   "https://apple-store-34wka7uqu-shambhavi-anands-projects.vercel.app"  // Vercel deployed frontend
 ];
 
