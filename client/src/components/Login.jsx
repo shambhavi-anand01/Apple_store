@@ -14,49 +14,33 @@ const styles = {
 
 function Login() {
   const { login } = useContext(AuthContext);
-  const [isSignup, setIsSignup] = useState(false);
-  const [credentials, setCredentials] = useState({ name: "", email: "", password: "" });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value.trim() });
-  };
-  
+  const handleChange = (e) => setCredentials({ ...credentials, [e.target.name]: e.target.value.trim() });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-  
-    const { email, password, name } = credentials;
-    if (!email || !password || (isSignup && !name)) {
-      setError("All fields are required!");
-      return;
-    }
-  
+
     try {
-      const response = isSignup ? await signup(name, email, password) : await login(email, password);
+      await login(credentials.email, credentials.password);
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      setError("Invalid login credentials");
     }
   };
+
   return (
-    <div style={styles.container}>
-      <div style={styles.formWrapper}>
-        <h2 style={styles.title}>{isSignup ? "Signup" : "Login"}</h2>
-        <form onSubmit={handleSubmit}>
-          {isSignup && (
-            <input type="text" name="name" placeholder="Full Name" style={styles.input} value={credentials.name} onChange={handleChange} />
-          )}
-          <input type="email" name="email" placeholder="Email" style={styles.input} value={credentials.email} onChange={handleChange} />
-          <input type="password" name="password" placeholder="Password" style={styles.input} value={credentials.password} onChange={handleChange} />
-          <button type="submit" style={styles.loginButton}>{isSignup ? "Signup" : "Login"}</button>
-          {error && <p style={styles.errorText}>{error}</p>}
-        </form>
-        <button onClick={() => setIsSignup(!isSignup)} style={styles.toggleButton}>
-          {isSignup ? "Already have an account? Login" : "Don't have an account? Signup"}
-        </button>
-      </div>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="email" name="email" placeholder="Email" value={credentials.email} onChange={handleChange} />
+        <input type="password" name="password" placeholder="Password" value={credentials.password} onChange={handleChange} />
+        <button type="submit">Login</button>
+        {error && <p>{error}</p>}
+      </form>
     </div>
   );
 }
