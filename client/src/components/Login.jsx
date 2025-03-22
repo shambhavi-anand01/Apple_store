@@ -43,6 +43,38 @@ function Login() {
       </form>
     </div>
   );
-}
+};
+
+const styles = {
+  container: {
+    textAlign: "center",
+    padding: "20px",
+    maxWidth: "300px",
+    margin: "auto",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    marginTop: "50px",
+  },
+  input: {
+    width: "100%",
+    padding: "8px",
+    margin: "10px 0",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+  },
+  button: {
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    padding: "10px 15px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%",
+  },
+  error: {
+    color: "red",
+    marginTop: "10px",
+  },
+};
 
 export default Login;
