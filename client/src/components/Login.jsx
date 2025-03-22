@@ -13,8 +13,9 @@ const styles = {
 };
 
 function Login() {
-  const { login } = useContext(AuthContext);
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const { login, signup } = useContext(AuthContext); // ✅ Fix: Import signup function
+  const [isSignup, setIsSignup] = useState(false);
+  const [credentials, setCredentials] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -26,14 +27,18 @@ function Login() {
     e.preventDefault();
     setError("");
 
-    const { email, password } = credentials;
-    if (!email || !password) {
+    const { email, password, name } = credentials;
+    if (!email || !password || (isSignup && !name)) {
       setError("All fields are required!");
       return;
     }
 
     try {
-      await login(email, password);
+      if (isSignup) {
+        await signup(name, email, password); // ✅ Fix: Call signup correctly
+      } else {
+        await login(email, password);
+      }
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -43,14 +48,19 @@ function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.formWrapper}>
-        <h2 style={styles.title}>Login</h2>
+        <h2 style={styles.title}>{isSignup ? "Signup" : "Login"}</h2>
         <form onSubmit={handleSubmit}>
+          {isSignup && (
+            <input type="text" name="name" placeholder="Full Name" style={styles.input} value={credentials.name} onChange={handleChange} />
+          )}
           <input type="email" name="email" placeholder="Email" style={styles.input} value={credentials.email} onChange={handleChange} />
           <input type="password" name="password" placeholder="Password" style={styles.input} value={credentials.password} onChange={handleChange} />
-          <button type="submit" style={styles.loginButton}>Login</button>
+          <button type="submit" style={styles.loginButton}>{isSignup ? "Signup" : "Login"}</button>
           {error && <p style={styles.errorText}>{error}</p>}
         </form>
-        <button onClick={() => navigate("/signup")} style={styles.toggleButton}>Don't have an account? Signup</button>
+        <button onClick={() => setIsSignup(!isSignup)} style={styles.toggleButton}>
+          {isSignup ? "Already have an account? Login" : "Don't have an account? Signup"}
+        </button>
       </div>
     </div>
   );
