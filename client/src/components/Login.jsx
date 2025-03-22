@@ -2,16 +2,6 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 
-const styles = {
-  container: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#f5f5f5" },
-  formWrapper: { backgroundColor: "white", padding: "30px", borderRadius: "10px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", width: "350px", textAlign: "center" },
-  title: { fontSize: "1.8rem", marginBottom: "20px", fontFamily: "Arial, sans-serif" },
-  input: { width: "100%", padding: "10px", marginBottom: "15px", border: "1px solid #ccc", borderRadius: "5px", fontSize: "1rem" },
-  loginButton: { width: "100%", backgroundColor: "#007BFF", color: "white", border: "none", padding: "10px", borderRadius: "5px", cursor: "pointer", fontSize: "1rem" },
-  toggleButton: { marginTop: "10px", backgroundColor: "#28a745", color: "white", border: "none", padding: "7px", borderRadius: "5px", cursor: "pointer", fontSize: "0.9rem" },
-  errorText: { color: "red", marginTop: "10px" },
-};
-
 function Login() {
   const { login } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
